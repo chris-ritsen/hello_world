@@ -5,7 +5,7 @@ import React from "react";
 const ConfirmationNotice = () => {
   return (
 <div>
-Confirmed
+Your submission has been confirmed.
 </div>
   );
 };

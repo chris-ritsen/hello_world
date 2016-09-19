@@ -1,64 +1,73 @@
 
-import React from "react";
+import React, { Component } from "react";
 
-fetch("/users", {
-  "headers": new Headers({
-    "Accept": "application/json"
-  }),
-  "method": "GET"
-}).then((response) => {
-  response.json().then((users) => {
-    console.log(users);
-  });
-});
+class UserReport extends Component {
+  constructor(props, context) {
+    super(props, context);
+    this.state = {
+      "users": null
+    };
+  }
+  componentWillMount() {
+    fetch("/users", {
+      "headers": new Headers({
+        "Accept": "application/json"
+      }),
+      "method": "GET"
+    }).then((response) => {
+      response.json().then((users) => {
+        this.setState({
+          users
+        });
+      });
+    });
+  }
+  render() {
+    let mapUsers = (user) => {
+      return (
+<tr key={user.date}>
+  <td>{user.first_name}</td>
+  <td>{user.last_name}</td>
+  <td>{user.address1}</td>
+  <td>{user.address2}</td>
+  <td>{user.city}</td>
+  <td>{user.state}</td>
+  <td>{user.zip}</td>
+  <td>{user.country}</td>
+  <td>{user.date}</td>
+</tr>
+      );
+    };
 
-const UserReport = () => {
-  return (
-<div>
-  <table>
-    <thead>
-      <tr>
-        <th>First Name</th>
-        <th>Last Name</th>
-        <th>Address1</th>
-        <th>Address2</th>
-        <th>City</th>
-        <th>State</th>
-        <th>Zip</th>
-        <th>Country</th>
-        <th>Date</th>
-      </tr>
-    </thead>
+    if (this.state.users === null) {
+      return (<div>Loading…</div>);
+    }
 
-    <tbody>
-      <tr>
-        <td>Sue</td>
-        <td>User</td>
-        <td>123 My Drive</td>
-        <td>Apt. 219</td>
-        <td>Userville</td>
-        <td>OH</td>
-        <td>12345</td>
-        <td>US</td>
-        <td>2014-07-01 00:00:00</td>
-      </tr>
+    if (!this.state.users.length) {
+      return (<div>{`There are no registered users.`}</div>);
+    }
 
-      <tr>
-        <td>Foo</td>
-        <td>Bar</td>
-        <td>123 Fnord lane</td>
-        <td>&nbsp;</td>
-        <td>Testerton</td>
-        <td>WI</td>
-        <td>54321</td>
-        <td>US</td>
-        <td>2014-06-28 00:00:00</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-  );
-};
+    return (
+<table>
+  <thead>
+    <tr>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>Address1</th>
+      <th>Address2</th>
+      <th>City</th>
+      <th>State</th>
+      <th>Zip</th>
+      <th>Country</th>
+      <th>Date</th>
+    </tr>
+  </thead>
+
+  <tbody>{this.state.users.map(mapUsers)}</tbody>
+</table>
+    );
+  }
+}
 
 export default UserReport;
 

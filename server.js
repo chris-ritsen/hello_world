@@ -57,7 +57,43 @@ app.get("/*", (request, response) => response.sendFile(__dirname + "/index.html"
 app.use(bodyParser.json());
 
 app.post("/register", (request, response) => {
-  // console.log(request.body);
+  let statement = db.prepare(`
+    insert into users
+    (
+      first_name,
+      last_name,
+      address1,
+      address2,
+      city,
+      state,
+      zip,
+      country
+    )
+    values (
+      ?,
+      ?,
+      ?,
+      ?,
+      ?,
+      ?,
+      ?,
+      ?
+    )
+  `);
+
+  let {
+    address1,
+    address2,
+    city,
+    country,
+    first_name,
+    last_name,
+    state,
+    zip
+  } = request.body;
+
+  statement.run(first_name, last_name, address1, address2, city, state, zip, country);
+  statement.finalize();
   response.sendStatus(200);
 });
 
