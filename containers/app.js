@@ -1,15 +1,11 @@
 
 import React from "react";
 
-import RegistrationForm from "../components/registrationForm";
-import UserReport from "../components/userReport";
+import Routes from "./routes";
 
 const App = () => {
   return (
-    <div>
-      <RegistrationForm />
-      <UserReport />
-    </div>
+    <Routes />
   );
 };
 

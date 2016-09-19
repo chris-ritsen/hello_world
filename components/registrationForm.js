@@ -1,5 +1,6 @@
 
 import React, { Component } from "react";
+import { browserHistory } from 'react-router'
 
 class RegistrationForm extends Component {
   constructor(props, context) {
@@ -31,6 +32,8 @@ class RegistrationForm extends Component {
         "Content-Type": "application/json"
       }),
       "method": "POST"
+    }).then((response) => {
+      browserHistory.push('/confirmation')
     });
   }
   render() {
