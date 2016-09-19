@@ -1,6 +1,17 @@
 
 import React from "react";
 
+fetch("/users", {
+  "headers": new Headers({
+    "Accept": "application/json"
+  }),
+  "method": "GET"
+}).then((response) => {
+  response.json().then((users) => {
+    console.log(users);
+  });
+});
+
 const UserReport = () => {
   return (
 <div>
