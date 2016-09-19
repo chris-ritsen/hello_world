@@ -1,5 +1,6 @@
 
 let Express = require("express");
+let _ = require("lodash");
 let bodyParser = require("body-parser");
 let sqlite3 = require("sqlite3");
 
@@ -71,6 +72,17 @@ app.post("/register", (request, response) => {
     values (?, ?, ?, ?, ?, ?, ?, ?)
   `);
 
+  request.body = Object.assign({
+    address1: "",
+    address2: "",
+    city: "",
+    country: "",
+    first_name: "",
+    last_name: "",
+    state: "",
+    zip: ""
+  }, request.body);
+
   let {
     address1,
     address2,
@@ -83,18 +95,35 @@ app.post("/register", (request, response) => {
   } = request.body;
 
   let validZip = true;
+  let validCountry = true;
+  let errors = [];
 
   if (zip && zip.length > 9 || Number.parseInt(zip) < 0) {
     validZip = false;
+    errors.push("zip");
   }
 
-  if (first_name && last_name && address1 && city && state && country &&
+  if (country && country.toLowerCase() !== "us" && country.toLowerCase() !== "united states") {
+    validCountry = false;
+    errors.push("country");
+  }
+
+  _.forIn(request.body, (value, key) => {
+    if (!value && key !== "address2") {
+      errors.push(key);
+    }
+  });
+
+  if (first_name && last_name && address1 && city && state && validCountry &&
   validZip) {
     statement.run(first_name, last_name, address1, address2, city, state, zip, country);
     statement.finalize();
     response.sendStatus(200);
   } else {
-    response.sendStatus(400);
+    errors = _.uniq(errors);
+    response.status(400).send({
+      errors
+    });
   }
 });
 
