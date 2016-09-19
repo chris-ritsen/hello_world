@@ -6,15 +6,17 @@ const UserReport = () => {
 <div>
   <table>
     <thead>
-      <th>First Name</th>
-      <th>Last Name</th>
-      <th>Address1</th>
-      <th>Address2</th>
-      <th>City</th>
-      <th>State</th>
-      <th>Zip</th>
-      <th>Country</th>
-      <th>Date</th>
+      <tr>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Address1</th>
+        <th>Address2</th>
+        <th>City</th>
+        <th>State</th>
+        <th>Zip</th>
+        <th>Country</th>
+        <th>Date</th>
+      </tr>
     </thead>
 
     <tbody>
