@@ -33,23 +33,118 @@ class RegistrationForm extends Component {
       }),
       "method": "POST"
     }).then((response) => {
-      browserHistory.push('/confirmation')
+      if (response.status === 400) {
+        // Validation error on server
+        return;
+      }
+
+      if (response.status === 200) {
+        browserHistory.push('/confirmation')
+      }
     });
   }
   render() {
+    let zipChange = (event) => {
+      if (event.target && event.target.value && event.target.value.length > 9) {
+        event.target.value = event.target.value.slice(0, 9);
+      }
+    };
+
     return (
 <form onSubmit={this.onSubmit}>
-  <label>Address
-    <input onChange={this.onChange} value={this.state.address1} required="required" type="text" name="address1" />
-    <input onChange={this.onChange} value={this.state.address2} type="text" name="address2" />
+  <label>
+    <span>Address<abbr class="req" title="required">*</abbr></span>
+
+    <input
+    name="address1"
+    onChange={this.onChange}
+    required="required"
+    type="text"
+    value={this.state.address1}
+    />
+
+    <input
+    name="address2"
+    onChange={this.onChange}
+    type="text"
+    value={this.state.address2}
+    />
   </label>
 
-  <label>City <input onChange={this.onChange} value={this.state.city} required="required" type="text" name="city" /></label>
-  <label>Country (US only)<input onChange={this.onChange} value={this.state.country} required="required" type="text" name="country" /></label>
-  <label>First Name <input onChange={this.onChange} value={this.state.first_name} required="required" type="text" name="first_name" /></label>
-  <label>Last Name <input onChange={this.onChange} value={this.state.last_name} required="required" type="text" name="last_name" /></label>
-  <label>State <input onChange={this.onChange} value={this.state.state} required="required" type="text" name="state" /></label>
-  <label>Zip (5 or 9 digit) <input onChange={this.onChange} value={this.state.zip} required="required" type="text" name="zip" /></label>
+  <label>
+    <span>City<abbr class="req" title="required">*</abbr></span>
+
+    <input
+    name="city"
+    onChange={this.onChange}
+    required="required"
+    type="text"
+    value={this.state.city}
+    />
+  </label>
+
+  <label>
+    <span>Country (US only)<abbr class="req" title="required">*</abbr></span>
+
+    <input
+    name="country"
+    onChange={this.onChange}
+    required="required"
+    type="text"
+    value={this.state.country}
+    />
+  </label>
+
+  <label>
+    <span>First Name<abbr class="req" title="required">*</abbr></span>
+
+    <input
+    name="first_name"
+    onChange={this.onChange}
+    required="required"
+    type="text"
+    value={this.state.first_name}
+    />
+  </label>
+
+  <label>
+    <span>Last Name<abbr class="req" title="required">*</abbr></span>
+
+    <input
+    name="last_name"
+    onChange={this.onChange}
+    required="required"
+    type="text"
+    value={this.state.last_name}
+    />
+  </label>
+
+  <label>
+    <span>State<abbr class="req" title="required">*</abbr></span>
+
+    <input
+    name="state"
+    onChange={this.onChange}
+    required="required"
+    type="text"
+    value={this.state.state}
+    />
+  </label>
+
+  <label>
+    <span>Zip (5 or 9 digit)<abbr class="req" title="required">*</abbr></span>
+    <input
+    min="0"
+    max="999999999"
+    name="zip"
+    onChange={this.onChange}
+    onKeyUp={zipChange}
+    pattern="[0-9]*"
+    required="required"
+    type="number"
+    value={this.state.zip}
+    />
+  </label>
 
   <button>Submit</button>
 </form>

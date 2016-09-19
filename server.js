@@ -8,7 +8,6 @@ const databaseFile = "./users.db";
 let db = new sqlite3.Database(databaseFile);
 
 db.serialize(() => {
-  // db.run("drop table users");
   db.run(`
     create table if not exists
     users
@@ -69,16 +68,7 @@ app.post("/register", (request, response) => {
       zip,
       country
     )
-    values (
-      ?,
-      ?,
-      ?,
-      ?,
-      ?,
-      ?,
-      ?,
-      ?
-    )
+    values (?, ?, ?, ?, ?, ?, ?, ?)
   `);
 
   let {
@@ -92,9 +82,20 @@ app.post("/register", (request, response) => {
     zip
   } = request.body;
 
-  statement.run(first_name, last_name, address1, address2, city, state, zip, country);
-  statement.finalize();
-  response.sendStatus(200);
+  let validZip = true;
+
+  if (zip && zip.length > 9 || Number.parseInt(zip) < 0) {
+    validZip = false;
+  }
+
+  if (first_name && last_name && address1 && city && state && country &&
+  validZip) {
+    statement.run(first_name, last_name, address1, address2, city, state, zip, country);
+    statement.finalize();
+    response.sendStatus(200);
+  } else {
+    response.sendStatus(400);
+  }
 });
 
 app.listen(port, (error) => {

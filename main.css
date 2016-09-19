@@ -6,3 +6,7 @@ label {
   display: flex;
 }
 
+.req {
+  color: red;
+}
+
