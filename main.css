@@ -1,12 +1,78 @@
 
-html {
+body, html, #root {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-basis: 100%;
+  flex-grow: 1;
+  height: 100%;
+}
+
+body, html {
+  flex-direction: row;
+  justify-content: center;
+}
+
+#root {
+  flex-direction: column;
+  flex-grow: 0;
+  flex-shrink: 1;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+form {
+  max-width: 200px;
+  align-items: stretch;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
 }
 
 label {
   display: flex;
+  flex-basis: 100%;
+  flex-direction: column;
+  flex-grow: 1;
+  flex-shrink: 0;
+  max-width: 200px;
+
+  span {
+    text-align: left;
+  }
+
+	input {
+    margin: 0.35rem 0;
+	}
+}
+
+form {
+  button {
+    display: block;
+    margin: 0 auto;
+    max-width: 100px;
+  }
 }
 
 .req {
   color: red;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+thead tr {
+  background-color: darkgrey;
+}
+
+th {
+  text-align: left;
+  border-bottom: 1px solid black;
+}
+
+td {
+  padding-right: 0.5rem;
 }
 

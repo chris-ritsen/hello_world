@@ -23,9 +23,9 @@ class UserReport extends Component {
     });
   }
   render() {
-    let mapUsers = (user) => {
+    let mapUsers = (user, index) => {
       return (
-<tr key={user.date}>
+<tr key={user.date} style={{backgroundColor: index % 2 === 0 ? "aliceblue" : "initial"}}>
   <td>{user.first_name}</td>
   <td>{user.last_name}</td>
   <td>{user.address1}</td>
